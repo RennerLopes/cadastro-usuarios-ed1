@@ -18,15 +18,6 @@ struct Usuarios {
 };
 typedef struct Usuarios usuarios;
 
-/* struct Usuarios {
-    int qtd;
-    char* nome[30];
-    char* RG[7];
-    char* CPF[11];
-    char* Endereco[120];
-};
-typedef struct Usuarios usuarios; */
-
 void init_list(usuarios* listaUsuarios);
 void kill_list(usuarios* listaUsuarios);
 void cadastrar_usuario(usuario dadosUsuario, usuarios* listaUsuarios);
