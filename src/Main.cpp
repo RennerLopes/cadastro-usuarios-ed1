@@ -28,13 +28,13 @@ int main(int argc, char** argv) {
                 usuario u;
                 cout << "Digite o nome: ";
                 cin.ignore();
-                cin.getline(u.nome, 30);
+                cin.getline(u.nome, sizeof(u.nome));
                 cout << "Digite o CPF (apenas numeros): ";
-                cin.getline(u.CPF, 11);
+                cin.getline(u.CPF, sizeof(u.CPF));
                 cout << "Digite o RG (apenas numeros): ";
-                cin.getline(u.RG, 9);
+                cin.getline(u.RG, sizeof(u.RG));
                 cout << "Digite o endereço: ";
-                cin.getline(u.Endereco, 120);
+                cin.getline(u.Endereco, sizeof(u.Endereco));
 
                 cadastrar_usuario(u, &listaUsuarios);
                 break;

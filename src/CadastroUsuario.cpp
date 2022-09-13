@@ -1,5 +1,7 @@
 #include "include/CadastroUsuario.h"
 
+FILE *arq;
+
 void init_list(usuarios *listaUsuarios) {
     listaUsuarios->qtd = 0;
     listaUsuarios->usuarios = NULL;
@@ -25,13 +27,15 @@ void cadastrar_usuario(usuario dadosUsuario, usuarios *listaUsuarios) {
 void listar_usuarios(usuarios *listaUsuarios) {
     if (listaUsuarios->usuarios == NULL) {
         cout << "Não possui usuários cadastrados!" << endl;
+        return;
     }
 
     for (int i = 0; i < listaUsuarios->qtd; i++) {
-        cout << listaUsuarios->usuarios[i].nome << "\t";
-        cout << listaUsuarios->usuarios[i].CPF << "\t";
-        cout << listaUsuarios->usuarios[i].RG << "\t";
-        cout << listaUsuarios->usuarios[i].Endereco << endl;
+        cout << "--------------" << endl;
+        cout << "Nome: " << listaUsuarios->usuarios[i].nome << endl;
+        cout << "CPF: " << listaUsuarios->usuarios[i].CPF << endl;
+        cout << "RG: " << listaUsuarios->usuarios[i].RG << endl;
+        cout << "Endereço: " << listaUsuarios->usuarios[i].Endereco << endl;
     }
 }
 
@@ -52,9 +56,7 @@ void remover_ultimo_usuario(usuarios *listaUsuarios) {
 }
 
 void salva_base_dados(usuarios *listaUsuarios) {
-    FILE *arq;
-
-    arq = fopen("usuarios.dat", "w");
+    arq = fopen("usuarios.txt", "w");
 
     if (arq == NULL) {
         cout << "Erro na criação do arquivo\n";
@@ -62,7 +64,8 @@ void salva_base_dados(usuarios *listaUsuarios) {
     }
 
     for (int i = 0; i < listaUsuarios->qtd; i++) {
-        fwrite(&listaUsuarios->usuarios[i], sizeof(usuario), 1, arq);
+        usuario u = listaUsuarios->usuarios[i];
+        fprintf(arq, "%s; %s; %s; %s\n", u.nome, u.RG, u.CPF, u.Endereco);
     }
 
     fclose(arq);
@@ -71,18 +74,15 @@ void salva_base_dados(usuarios *listaUsuarios) {
 void carregar_base_dados(usuarios *listaUsuarios) {
     usuario u;
 
-    FILE *arq;
-
-    if ((arq = fopen("usuarios.dat", "rw")) == NULL) {
+    if ((arq = fopen("usuarios.txt", "r")) == NULL) {
         cout << "Erro na abertura do arquivo\n";
         return;
     }
 
-    while (fread(&u, sizeof(usuario), 1, arq)) {
+    while (fscanf(arq, "%[^;]; %[^;]; %[^;]; %[^;]\n", u.nome, u.RG, u.CPF, u.Endereco) != EOF) {
         cadastrar_usuario(u, listaUsuarios);
     }
 
     cout << "Base de dados carregada!" << endl;
-
     fclose(arq);
 }
