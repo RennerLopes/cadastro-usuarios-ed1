@@ -6,8 +6,8 @@ using namespace std;
 
 struct Usuario {
     char nome[30];
-    char RG[7];
-    char CPF[11];
+    char RG[8];
+    char CPF[12];
     char Endereco[120];
 };
 typedef struct Usuario usuario;
